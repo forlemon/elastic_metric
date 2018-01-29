@@ -1,0 +1,13 @@
+- name: Create Kibana configuration file
+  vars:
+    - elastic_ip: "{{ hostvars['h1']['ansible_ssh_host'] }}"
+  template: 
+    src: kibana.yml.j2 
+    dest: /etc/custom_kibana.yml
+
+
+- name: get docker
+  command: docker pull docker.elastic.co/kibana/kibana-oss:6.1.2
+
+- name: run docker
+  command: docker run -d -p 5601:5601 -v /etc/custom_kibana.yml:/usr/share/kibana/config/kibana.yml docker.elastic.co/kibana/kibana-oss:6.1.2

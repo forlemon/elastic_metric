@@ -1,0 +1,13 @@
+- name: Create ElasticSearch configuration file
+  vars:
+    - elastic_ip: "{{ hostvars['h1']['ansible_ssh_host'] }}"
+  template: 
+    src: metricbeat.yml.j2
+    dest: /etc/custom_metricbeat.yml
+
+
+- name: get docker
+  command: docker pull docker.elastic.co/beats/metricbeat:6.1.2
+
+- name: run docker
+  command: docker run -d -v /etc/custom_metricbeat.yml:/usr/share/metricbeat/metricbeat.yml docker.elastic.co/beats/metricbeat:6.1.2
