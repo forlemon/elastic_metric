@@ -1,13 +1,35 @@
-- name: Create ElasticSearch configuration file
+
+- file:
+    path: /etc/metricbeatscfg/modules.d
+    state: directory
+    mode: 0755
+
+- name: Create Metricbeats configuration file
   vars:
     - elastic_ip: "{{ hostvars['h1']['ansible_ssh_host'] }}"
   template: 
     src: metricbeat.yml.j2
-    dest: /etc/custom_metricbeat.yml
+    dest: /etc/metricbeatscfg/metricbeat.yml
 
+#- name: Create nginx module
+#  vars:
+#    - elastic_ip: "{{ hostvars['h2']['ansible_ssh_host'] }}"
+#  template: 
+#    src: nginx.yml.j2
+#    dest: /etc/metricbeatscgf/modules.d/nginx.yml
+
+- name: Create docker module
+  template: 
+    src: docker.yml
+    dest: /etc/metricbeatscfg/modules.d/docker.yml
+
+- name: Create system module
+  template: 
+    src: system.yml
+    dest: /etc/metricbeatscfg/modules.d/system.yml
 
 - name: get docker
   command: docker pull docker.elastic.co/beats/metricbeat:6.1.2
 
 - name: run docker
-  command: docker run -d -v /etc/custom_metricbeat.yml:/usr/share/metricbeat/metricbeat.yml docker.elastic.co/beats/metricbeat:6.1.2
+  command: docker run -d -v /etc/metricbeatscfg/:/usr/share/metricbeat/ docker.elastic.co/beats/metricbeat:6.1.2
