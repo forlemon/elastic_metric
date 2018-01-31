@@ -1,11 +1,11 @@
 ---
-#- name: Deploy ElasticSearch Docker
-#  hosts: elastic
-#  user: ubuntu
-#  become: True
-#  become_method: sudo
-#  roles:
-#    - elastic_docker
+- name: Deploy ElasticSearch Docker
+  hosts: elastic
+  user: ubuntu
+  become: True
+  become_method: sudo
+  roles:
+    - elastic_docker
 
 - name: Deploy MetricBeats Docker
   hosts: metricbeat
@@ -15,10 +15,10 @@
   roles:
     - metric_docker
 
-- name: Deploy Kibana Docker
-  hosts: elastic
-  user: ubuntu
-  become: True
-  become_method: sudo
-  roles:
-    - kibana_docker
+#- name: Deploy Kibana Docker
+#  hosts: elastic
+#  user: ubuntu
+#  become: True
+#  become_method: sudo
+#  roles:
+#    - kibana_docker

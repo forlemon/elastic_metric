@@ -1,6 +1,6 @@
 
 - file:
-    path: /etc/metricbeatscfg/modules.d
+    path: /etc/metricbeatscfg/
     state: directory
     mode: 0755
 
@@ -18,13 +18,13 @@
 #    src: nginx.yml.j2
 #    dest: /etc/metricbeatscgf/modules.d/nginx.yml
 
-- name: Create docker module
-  template: 
-    src: docker.yml
-    dest: /etc/metricbeatscfg/modules.d/docker.yml
+#- name: Create docker module
+#  template: 
+#    src: docker.yml
+#    dest: /etc/metricbeatscfg/modules.d/docker.yml
 
 - name: Create system module
-  template: 
+ template: 
     src: system.yml
     dest: /etc/metricbeatscfg/modules.d/system.yml
 
@@ -32,4 +32,4 @@
   command: docker pull docker.elastic.co/beats/metricbeat:6.1.2
 
 - name: run docker
-  command: docker run -d -v /etc/metricbeatscfg/:/usr/share/metricbeat/ docker.elastic.co/beats/metricbeat:6.1.2
+  command: docker run -d -v /etc/metricbeatscfg/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml -v /etc/metricbeatscfg/modules.d/system.yml:/usr/share/metricbeat/modules.d/system.yml docker.elastic.co/beats/metricbeat:6.1.2
